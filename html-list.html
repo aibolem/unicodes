@@ -20,6 +20,116 @@ th q { border:1px; padding:0px; text-decoration:none; font-weight:normal; font-s
 </head>
 <body id="top">
 
+<main>
+
+<h1>Unicode et UTF-8 en HTML</h1>
+
+<!--
+http://utf8-chartable.de/
+http://www.fileformat.info/info/charset/UTF-8/list.htm
+https://unicode-table.com/fr/blocks/musical-symbols/
+-->
+<h6>AUX débuts de la communication en réseaux informatiques, seuls les caractères non accentués (ASCII: inférieurs à 128, codés sur sept bits) étaient autorisés. Une centaine de caractères supplémentaires, comme le <kbd>é</kbd>, sont alors codés, avec par exemple <kbd>=E9</kbd> pour les mails, <kbd>%E9</kbd> pour les URL, ou les séquences <kbd>&amp;#233;</kbd>, <kbd>&amp;#xE9;</kbd> et <kbd>&amp;eacute;</kbd> pour le HTML.</h6>
+<p class="s">
+Cette page suit les recommandations de 1990 pour une <a href="../langage/reformes.htm">orthographe réformée</a>.
+<p>
+Ce codage n'est pas nécessaire pour 128 signes supplémentaires (lettres accentuées ou caractères spéciaux) si vous incluez, entre les balises <kbd>&lt;head&gt;</kbd> et <kbd>&lt;/head&gt;</kbd> de votre fichier HTML, une balise parmi les trois suivantes
+<pre>
+&lt;meta charset="windows-1252"&gt;
+&lt;meta charset="iso-8859-1"&gt;
+&lt;meta charset="iso-8859-15"&gt;
+</pre><p>
+De façon plus moderne, vous pouvez utiliser tous les caractères que vous désirez avec la ligne
+<pre>
+&lt;meta charset="utf-8"&gt;
+</pre><p>
+Mais cela dépend beaucoup de votre serveur Internet : certains n'autorisent qu'une façon de coder, ou doivent paramétrer expressément la façon que vous aurez choisie. Par ailleurs, il faut que les caractères correspondant au codage soient pris en charge par les polices installées sur le navigateur. L'éditeur de fichier HTML doit également sauvegarder le texte en UTF-8.
+<p>
+Cela génère de plus gros fichiers: les caractères non ASCII (lettres accentuées, certains symboles, lettres non latines prennent deux octets ; les idéogrammes et caractères graphiques en prennent trois… Les caractères <a href="iso8859.htm" class="p">iso-8859</a> (langues européennes, arabe, hébreu, grecque, turque et thaï) accepte un texte de façon plus économe (un octet par lettre), mais limité à 192 ou 224 caractères et à l'exclusion de tous les caractères non ASCII, qu'il faudra alors coder <kbd>&amp;lambda;</kbd> , <kbd>&amp;#955;</kbd> ou <kbd>&amp;#x3BB;</kbd>
+<p>
+Si vous ne voyez pas un caractère (autre que la césure <kbd>&amp;shy;</kbd>) dans le tableau qui suit, c'est que les polices de votre système d'exploitation ne peuvent l'afficher.
+<p>
+Voir également <a href="http://dev.w3.org/html5/html-author/charref" class="x">dev.w3.org/html5/html-author/charref</a>
+
+<div class="fg">
+<a href="#ascii">ASCII</a><br>
+<a href="#cp1252">windows-1252</a><br>
+<a href="#iso8859">w-1252 / iso8859-1</a><br>
+<a href="#accents">autres accentuées</a><br>
+<a href="#grec">grec</a> + <a href="#grecacc">polytonique</a><br>
+<a href="#api">API / IPA</a> + <a href="#apix">ext</a><br>
+</div><div class="fg">
+<a href="#ponctuation">ponctuation</a><br>
+<a href="#fractions">fractions</a><br>
+</div><div class="fg">
+<a href="#romains">romains</a><br>
+<a href="#directions">flèches et directions  </a><br>
+<a href="#math">mathématiques</a><br>
+<a href="#techniques">techniques</a><br>
+</div><div class="fg">
+<a href="#num">numérotations</a><br>
+<a href="#semigraph">semi-graphiques</a>  <br>
+<a href="#dingbats">symboles et dingbats</a><br>
+<a href="#braille">caractères Braille</a><br>
+<a href="#notes">signes musicaux</a>
+</div><div class="fg">
+<a href="#ogham">ogham</a><br>
+<a href="#rune">rune</a><br>
+<a href="#cyrill">cyrilliques</a>
+<a href="#cyrill2">-2</a>
+<a href="#cyrill3">-3</a>
+<a href="#cyrill4">-4</a>
+<a href="#cyrill5">-5</a><br>
+<a href="#devanagari">Inde : Devanagari, Bengali, etc.</a><br>
+<a href="#tibet">Tibet</a>
+</div><div class="fg">
+<a href="#arabe">Arabe</a> + <a href="#arabe2">-2</a><br>
+</div>
+
+<div class="cl"></div>
+<p>
+Autres pages :
+<a href="cjk-utf8.htm" class="p">Chinese-Japanese-Korean</a> &bull;
+
+<table>
+
+<tr><td colspan="7"><h2 id="ascii">ASCII <a href="#top">↑</a></h2>
+
+<tr><td colspan="7">
+<p>
+Au sens strict, les caractères ASCII ne concerne que les 128 premiers caractères, de 0 à 127. Les 32 premiers (de 0 à 31) sont les caractères de contrôle, utilisés autrefois pour les terminaux, codant le formatage des messages (début et fin de transmission, données…). L'octet 3 était utilisé pour la fin d'un texte: [ctrl-c] met fin à une commande en mode console. L'octet 4 était utilisé pour une fin de transmission: [ctrl-d] ferme une console (du moins en UNIX)…
+<p>
+Actuellement, les caractères 7 (cloche), 8 (backspace), 9 (tabulation), 10 (ligne suivante pour MS, paragraphe pour Unix et OSX), 12 (nouvelle page), 13 (début de ligne pour MS, nouveau paragraphe pour Mac jusqu'à OS9) et 27 (séquence d'échappement) peuvent servir à formater des textes simples ou une console (émulation de terminal), mais ne servent pas en HTML. Les caractères «visibles» ne commencent donc qu'avec l'espace (32).
+<!--
+&amp;#9;	&amp;Tab;
+&amp;#10;	&amp;NewLine;
+-->
+<p>
+Cinq caractères sont utilisés dans l'encodage HTML: ils doivent donc eux-mêmes être codés pour apparaitre:
+<ul style="margin:0">
+<li>dans les données HTML:
+<ul>
+<li>le caractère <kbd>&lt;</kbd> est codé <kbd>&amp;lt;</kbd> (lesser than) pour ne pas être confondu avec une ouverture de balise
+<li>le caractère <kbd>&gt;</kbd> est codé <kbd>&amp;gt;</kbd> (greater than) pour ne pas être confondu avec une fermeture de balise
+<li>le caractère <kbd>&amp;</kbd> est codé <kbd>&amp;amp;</kbd> (ampersand) pour le distinguer d'un début de mnémonique, tel <kbd>&amp;star;</kbd> pour &star;
+</ul>
+<li>à l'intérieur d'une balise:
+<ul>
+<li>un guillemet double <kbd>"</kbd> est codé <kbd>&amp;quot;</kbd> dans une <kbd>"chaine de codage"</kbd> délimitée par des guillemets doubles:
+<pre>&lt;abbr title="L'horrible &amp;quot;fantôme&amp;quot;"&gt;</pre>
+<li>une apostrophe <kbd>'</kbd> est codée <kbd>&amp;apos;</kbd> dans une <kbd>'chaine de codage'</kbd> délimitée par des apostrophes:
+<pre>&lt;abbr title='L&amp;apos;horrible "fantôme"'&gt;</pre>
+<li>il est possible d'utiliser l'apostrophe simple entre guillemet double et vice-versa:
+<pre>
+&lt;img src="ghost.png" title="L'horrible fantôme" alt='Ceci est un "horrible" fantôme'&gt;
+</pre>
+<li>l’apostrophe typographique et les «guillemets typographiques» sont des caractères ordinaires:
+<pre>
+&lt;img src="ghost.png" title='L’horrible fantôme' alt="Ceci est un «horrible» fantôme"&gt;
+</pre>
+</ul>
+</ul>
+
 <tr class="gras"><th width="1em">Car.<th width="1em">Déc.<th width="1em">Hex.<th width="1em">Octet<th>Mnémonique<th>Description<th>Interprétation
 
 <tr><th><q> </q><td>&amp;#32;<td>&amp;#x20;<td>20<td><td>space<td>espace
